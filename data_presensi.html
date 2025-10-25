@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Presensi Mahasiswa</title>
+    <link rel="stylesheet" href="style-dashboard.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        /* CSS Khusus untuk Konten Data Presensi */
+        .content-header {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee; 
+        }
+
+        .data-table-container {
+            overflow-x: auto; 
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* CSS Status Presensi */
+        .status-hadir {
+            background-color: #e6f4ea;
+            color: var(--success-color);
+        }
+        .status-izin {
+            background-color: #fff7e6;
+            color: var(--warning-color);
+        }
+        .status-sakit, .status-alpa {
+            background-color: #fce8e6;
+            color: var(--danger-color);
+        }
+        
+        .status-hadir, .status-izin, .status-sakit, .status-alpa {
+            padding: 6px 12px;
+            border-radius: 15px; 
+            font-weight: 600;
+            font-size: 0.85em;
+            display: inline-block;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee; 
+        }
+
+        .data-table th {
+            background-color: #f5f5f5; 
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        .data-table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo Kampus" class="campus-logo">
+                <p>APLIKASI PRESENSI DISPORA LABUSEL</p>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="dashboard.html"><span class="icon">🏠</span> Dashboard</a></li>
+                    <li><a href="presensi.html"><span class="icon">🗓️</span> Presensi</a></li>
+                    <li><a href="data_mahasiswa.html"><span class="icon">👤</span> Data Mahasiswa</a></li>
+                    <li><a href="data_kampus.html"><span class="icon">🏢</span> Data Kampus</a></li>
+                    <li class="active"><a href="data_presensi.html"><span class="icon">📜</span> Data Presensi</a></li>
+                    <li><a href="rekap.html"><span class="icon">📊</span> Rekap</a></li>
+                    <li><a href="about_us.html"><span class="icon">ℹ️</span> About Us</a></li>
+                    <li><a href="backup.html"><span class="icon">⚙️</span> Backup/Restore</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="welcome-text">DATA PRESENSI DISPORA LABUSEL</div>
+            </header>
+
+            <div class="content-body">
+                <div class="content-header">
+                    <h2>Data Presensi Kehadiran</h2>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="exportCsvBtn" class="action-btn csv-btn">Ekspor ke CSV</button>
+                    <button id="exportPdfBtn" class="action-btn pdf-btn">Ekspor ke PDF</button>
+                    <button id="deleteBtn" class="action-btn delete-btn">Hapus Semua Data</button>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table" id="dataPresensiTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIM/NIP</th>
+                                <th>Nama Lengkap</th>
+                                <th>Mata Kuliah</th>
+                                <th>Tanggal</th>
+                                <th>Waktu</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="presensiTableBody">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    // --- PENTING: HAPUS DATA SIMULASI (Contoh) SEHINGGA DATA DIAMBIL DARI LOCAL STORAGE SAJA ---
+    let presensiData = []; 
+    // Data akan diisi dari Local Storage di fungsi loadData()
+
+    // Ambil fungsi jsPDF dan autoTable dari window
+    const { jsPDF } = window.jspdf;
+
+    // FUNGSI UTAMA: MENDAPATKAN SEMUA DATA PRESENSI DARI LOCAL STORAGE
+    function getPresensiDataFromStorage() {
+        const data = localStorage.getItem('presensiData');
+        return data ? JSON.parse(data) : [];
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableBody = document.getElementById('presensiTableBody');
+        const exportCsvBtn = document.getElementById('exportCsvBtn');
+        const exportPdfBtn = document.getElementById('exportPdfBtn');
+        const deleteBtn = document.getElementById('deleteBtn');
+
+        // 1. FUNGSI MUAT DATA DARI LOCAL STORAGE KE TABEL
+        function loadData() {
+            // Ambil data terbaru dari Local Storage
+            presensiData = getPresensiDataFromStorage(); 
+            
+            tableBody.innerHTML = '';
+            if (presensiData.length === 0) {
+                const row = tableBody.insertRow();
+                row.innerHTML = `<td colspan="7" style="text-align: center; color: var(--danger-color); font-weight: bold;">Tidak ada data presensi saat ini. Silakan catat presensi baru.</td>`;
+                return;
+            }
+
+            let rowNum = 1;
+            presensiData.forEach(data => {
+                const row = tableBody.insertRow();
+                let statusClass = '';
+                if (data.status === 'Hadir') statusClass = 'status-hadir';
+                else if (data.status === 'Izin') statusClass = 'status-izin';
+                else if (data.status === 'Sakit') statusClass = 'status-sakit';
+                else if (data.status === 'Alpa') statusClass = 'status-alpa';
+
+                row.innerHTML = `
+                    <td>${rowNum++}</td>
+                    <td>${data.nim}</td>
+                    <td>${data.nama}</td>
+                    <td>${data.matkul}</td>
+                    <td>${data.tgl}</td>
+                    <td>${data.waktu}</td>
+                    <td><span class="${statusClass}">${data.status}</span></td>
+                `;
+            });
+        }
+        loadData(); // Panggil saat halaman dimuat
+
+        // 2. FUNGSI EKSPOR CSV
+        function exportTableToCSV(tableId, filename) {
+            // ... (Kode fungsi exportTableToCSV tetap sama) ...
+            const table = document.getElementById(tableId);
+            const rows = table.querySelectorAll('tr');
+            let csv = [];
+
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const cols = row.querySelectorAll('td, th');
+                let rowData = [];
+                for (let j = 0; j < cols.length; j++) {
+                    let data = cols[j].textContent.trim();
+                    const spanStatus = cols[j].querySelector('span');
+                    if (spanStatus) {
+                        data = spanStatus.textContent.trim();
+                    }
+                    rowData.push('"' + data + '"'); 
+                }
+                csv.push(rowData.join(','));
+            }
+
+            const csvFile = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(csvFile);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        // 3. FUNGSI EKSPOR PDF 
+        function exportTableToPDF(tableId, filename) {
+            // ... (Kode fungsi exportTableToPDF tetap sama) ...
+            const doc = new jsPDF('l', 'mm', 'a4'); 
+
+            doc.setFontSize(14);
+            doc.text("Laporan Data Presensi Mahasiswa", 14, 15);
+            doc.setFontSize(10);
+            doc.text("Tanggal Cetak: " + new Date().toLocaleDateString('id-ID'), 14, 22);
+
+            doc.autoTable({
+                html: `#${tableId}`,
+                startY: 28,
+                theme: 'striped',
+                headStyles: { fillColor: [0, 119, 182] }, // Warna Primary dari style-dashboard.css
+                bodyStyles: { textColor: [44, 62, 80] },
+                didParseCell: function(data) {
+                    if (data.column.index === 6 && data.cell.raw.querySelector('span')) {
+                        data.cell.text = [data.cell.raw.querySelector('span').textContent];
+                    }
+                }
+            });
+
+            doc.save(filename);
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'Data presensi berhasil diekspor ke PDF.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+
+        // 4. FUNGSI HAPUS SEMUA DATA 
+        function deleteAllData() {
+            Swal.fire({
+                title: 'ANDA YAKIN?',
+                text: "Semua data presensi akan dihapus permanen! Tindakan ini tidak bisa dibatalkan.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef476f', // Warna Danger dari style-dashboard.css
+                cancelButtonColor: '#6c757d', 
+                confirmButtonText: 'Ya, Hapus Semua!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Hapus data dari Local Storage
+                    localStorage.removeItem('presensiData'); 
+                    
+                    loadData(); // Muat ulang tabel (akan menjadi kosong)
+
+                    Swal.fire(
+                        'Dihapus!',
+                        'Semua data presensi telah berhasil dihapus.',
+                        'success'
+                    );
+                }
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+        exportCsvBtn.addEventListener('click', function() {
+            exportTableToCSV('dataPresensiTable', 'data_presensi_mahasiswa.csv'); 
+        });
+        
+        exportPdfBtn.addEventListener('click', function() {
+            exportTableToPDF('dataPresensiTable', 'data_presensi_mahasiswa.pdf'); 
+        });
+
+        deleteBtn.addEventListener('click', deleteAllData);
+
+    });
+</script>
+</body>
+</html>

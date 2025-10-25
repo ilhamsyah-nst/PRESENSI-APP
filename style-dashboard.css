@@ -1,0 +1,534 @@
+/* style-dashboard.css - GAYA BARU (LEBIH MENARIK DAN BERWARNA) */
+
+:root {
+    /* Palet Warna - Lebih Berani dan Kontras */
+    --primary-color: #0077b6; /* Biru Laut yang Kuat (Digunakan untuk link, header, border) */
+    --secondary-color: #48cae4; /* Biru Aksen (Digunakan untuk hover, highlight) */
+    --accent-color: #00b4d8; /* Warna Aksen Tengah */
+    --danger-color: #ef476f; /* Merah Menyala */
+    --warning-color: #ffd166; /* Kuning Cerah */
+    --success-color: #06d6a0; /* Hijau Segar */
+    
+    /* Background & Layout */
+    --light-bg: #e9eef6; /* Latar Belakang Konten Sedikit Lebih Gelap */
+    --sidebar-bg: #111b21; /* Dark Mode Sidebar yang Lebih Gelap */
+    --sidebar-hover-bg: #0077b6; /* Warna Hover Sidebar mengikuti Primary Color */
+    --card-bg: white;
+    --text-dark: #2c3e50;
+    --text-light: #f8f9fa; /* Digunakan untuk teks di atas background berwarna */
+    
+    /* Shape & Shadow */
+    --radius-sm: 8px;
+    --radius-md: 15px; /* Lebih rounded */
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.15); /* Bayangan lebih dalam */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: 'Roboto', 'Arial', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- SIDEBAR (Kiri) --- */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+
+.logo {
+    text-align: center;
+    padding: 10px 20px;
+    margin-bottom: 15px; 
+    border-bottom: 1px solid #3c4043;
+}
+
+/* LOGO: LEBIH BESAR & BULAT LONJONG */
+.campus-logo {
+    width: 100px; 
+    height: 120px; 
+    margin-bottom: 5px;
+    
+    /* Bentuk ELIPS/OVAL */
+    border-radius: 50% / 50%; 
+    border: 3px solid var(--secondary-color); /* Tambah border berwarna */
+    
+    object-fit: cover; 
+    transition: transform 0.3s;
+}
+
+.campus-logo:hover {
+    transform: scale(1.05); /* Efek zoom saat hover */
+}
+
+.logo p {
+    font-size: 0.85em;
+    color: var(--secondary-color); /* Warna teks logo lebih terang */
+    font-weight: 500;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li a {
+    display: flex;
+    align-items: center;
+    padding: 14px 25px;
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 1em;
+    transition: background-color 0.3s, border-left 0.3s, color 0.3s;
+}
+
+.menu li a .icon {
+    margin-right: 15px;
+    font-size: 1.3em;
+}
+
+.menu li a:hover {
+    background-color: var(--sidebar-hover-bg);
+    color: white;
+}
+
+.menu li.active a {
+    background-color: var(--sidebar-hover-bg);
+    color: white;
+    border-left: 5px solid var(--secondary-color); /* Border lebih tebal */
+    font-weight: 600;
+}
+
+
+/* --- MAIN CONTENT (Kanan) --- */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+.welcome-text {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--accent-color);
+    border-radius: var(--radius-sm);
+    padding: 5px 12px;
+    background-color: #f8f9fa;
+    box-shadow: var(--shadow-sm);
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 5px;
+    font-size: 1em;
+    color: var(--text-dark);
+}
+
+.search-icon {
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: color 0.2s;
+}
+.search-icon:hover {
+    color: var(--danger-color);
+}
+
+.date-time {
+    font-size: 1em;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.logout-btn {
+    padding: 10px 18px;
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: #c4002f;
+    transform: translateY(-2px);
+}
+
+
+/* --- CONTENT BODY --- */
+.content-body {
+    padding: 30px;
+    flex-grow: 1;
+}
+
+.stats-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* MODIFIKASI KOTAK STATISTIK JADI BERWARNA PENUH */
+.stat-card {
+    flex: 1;
+    /* Background akan diatur oleh kelas di bawah */
+    padding: 25px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden; 
+}
+
+/* Hapus kode stat-card::before yang lama */
+/* stat-card::before { ... } */
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Bayangan lebih gelap saat hover */
+}
+
+/* ATUR WARNA FULL GRADIENT PADA MASING-MASING KARTU */
+
+/* Kartu Total Mahasiswa (Biru Primer) */
+.total-mahasiswa { 
+    background: linear-gradient(135deg, var(--primary-color), #004c8c); 
+    color: var(--text-light); /* Teks di dalam kartu harus putih */
+}
+/* Kartu Total Dosen (Aksen Cyan) */
+.total-dosen { 
+    background: linear-gradient(135deg, var(--accent-color), #008f9c); 
+    color: var(--text-light); 
+}
+/* Kartu Tingkat Kehadiran (Hijau Sukses) */
+.tingkat-kehadiran { 
+    background: linear-gradient(135deg, var(--success-color), #04aa7d); 
+    color: var(--text-light); 
+}
+/* Kartu Total Kampus (Kuning Peringatan) */
+.total-kampus { 
+    background: linear-gradient(135deg, var(--warning-color), #cc9900); 
+    color: var(--text-light); 
+}
+
+
+/* Ubah gaya elemen di dalam kartu agar sesuai dengan background gelap */
+.stat-card .icon {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+    color: var(--text-light); /* Ikon jadi putih/terang */
+}
+
+.stat-card .number {
+    font-size: 3em;
+    font-weight: 900;
+    color: var(--text-light); /* Angka jadi putih/terang */
+    margin: 0;
+}
+
+.stat-card .label {
+    font-size: 1em;
+    color: var(--text-light); /* Label jadi putih/terang */
+    margin-top: 5px;
+    font-weight: 500;
+}
+/* --- AKHIR MODIFIKASI STAT CARD --- */
+
+
+/* --- MAIN LAYOUT (Two Columns) --- */
+.main-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.main-left {
+    flex: 2; 
+}
+
+/* MODIFIKASI UNTUK VIDEO DAN SCROLLABLE NEWS */
+.main-right {
+    flex: 1; 
+    display: block; 
+    gap: 0;
+    overflow: hidden; 
+    padding: 0; 
+    background: transparent; 
+    box-shadow: none;
+}
+
+/* Quick Access */
+.quick-access, .important-alert {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 30px;
+}
+
+.quick-access h3, .important-alert h4 {
+    margin-top: 0;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.access-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.quick-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-dark);
+    padding: 15px 10px;
+    border: 1px solid #ddd;
+    border-radius: var(--radius-sm);
+    flex-basis: calc(33.33% - 10px);
+    transition: background-color 0.3s, transform 0.2s;
+    background-color: #f8f8f8;
+}
+
+.quick-link .icon {
+    font-size: 2em;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.quick-link:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-3px);
+}
+.quick-link:hover .icon {
+    color: white;
+}
+
+/* Important Alert */
+.important-alert {
+    border-left: 5px solid var(--danger-color);
+}
+.important-alert h4 {
+    color: var(--danger-color);
+    border-bottom: 1px solid #f0f0f0;
+}
+.important-alert p {
+    margin-bottom: 15px;
+    font-size: 0.95em;
+    color: var(--text-dark);
+}
+
+.backup-btn, .restore-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.backup-btn {
+    background-color: var(--success-color);
+    color: white;
+    margin-right: 10px;
+}
+
+.restore-btn {
+    background-color: var(--warning-color);
+    color: var(--text-dark);
+}
+
+.backup-btn:hover, .restore-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* --- VIDEO CONTAINER & NEWS BOX (KANAN) --- */
+
+.video-container {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    padding: 25px; 
+}
+
+.video-container h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 5px;
+    font-weight: 700;
+}
+
+/* Membuat Wadah Video Responsif (Aspek Rasio 16:9) */
+.main-video-player {
+    position: relative;
+    padding-bottom: 56.25%; 
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.main-video-player video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Wadah untuk daftar berita/video lain (agar bisa di-scroll) */
+.news-list-scroller {
+    max-height: 250px; 
+    overflow-y: auto; 
+    padding-right: 10px; 
+}
+
+/* Scrollbar styling (opsional, hanya untuk browser Webkit) */
+.news-list-scroller::-webkit-scrollbar {
+    width: 8px;
+}
+.news-list-scroller::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 10px;
+}
+
+/* Gaya untuk setiap kotak berita di dalam scroller */
+.news-box {
+    padding: 15px;
+    border-radius: var(--radius-sm);
+    color: white;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 10px; 
+    transition: background-color 0.3s;
+}
+
+.news-box:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.news-box h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.news-box p {
+    font-size: 0.9em;
+}
+
+.news-box a {
+    color: var(--warning-color); 
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.action-buttons {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap; /* Agar responsif */
+}
+
+.action-btn {
+    padding: 10px 18px;
+    color: white;
+    border: none;
+    border-radius: 20px; 
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+/* Gaya Tombol CSV (gunakan warna primary) */
+.csv-btn {
+    background-color: var(--primary-color);
+}
+.csv-btn:hover {
+    background-color: #005691;
+    transform: translateY(-1px);
+}
+
+/* Gaya Tombol PDF (gunakan warna accent/success) */
+.pdf-btn {
+    background-color: var(--success-color);
+}
+.pdf-btn:hover {
+    background-color: #059876;
+    transform: translateY(-1px);
+}
+
+/* Gaya Tombol Hapus (gunakan warna danger) */
+.delete-btn {
+    background-color: var(--danger-color);
+}
+.delete-btn:hover {
+    background-color: #d83d61;
+    transform: translateY(-1px);
+}
+
+/* Gradien Warna News Box */
+.green-box { background: linear-gradient(135deg, var(--success-color), #04aa7d); }
+.blue-box { background: linear-gradient(135deg, var(--primary-color), #004c8c); }
+.red-box { background: linear-gradient(135deg, var(--danger-color), #b83353); }

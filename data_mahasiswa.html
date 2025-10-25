@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Mahasiswa</title>
+    <link rel="stylesheet" href="style-dashboard.css">
+    <style>
+        /* CSS Khusus untuk Data Mahasiswa */
+        .content-header {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .data-table-container {
+            overflow-x: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: #f1f1f1;
+            color: #333;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Tombol Aksi */
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 0.9em;
+        }
+
+        .edit-btn {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        /* Tombol Tambah Mahasiswa */
+        #addStudentBtn {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        #addStudentBtn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo Kampus" class="campus-logo">
+                <p>APLIKASI PRESENSI DISPORA LABUSEL</p>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="dashboard.html"><span class="icon">🏠</span> Dashboard</a></li>
+                    <li><a href="presensi.html"><span class="icon">🗓️</span> Presensi</a></li>
+                    <li class="active"><a href="data_mahasiswa.html"><span class="icon">👤</span> Data Mahasiswa</a></li>
+                    <li><a href="data_kampus.html"><span class="icon">🏢</span> Data Kampus</a></li>
+                    <li><a href="data_presensi.html"><span class="icon">📜</span> Data Presensi</a></li>
+                    <li><a href="rekap.html"><span class="icon">📊</span> Rekap</a></li>
+                    <li><a href="about_us.html"><span class="icon">ℹ️</span> About Us</a></li>
+                    <li><a href="backup.html"><span class="icon">⚙️</span> Backup/Restore</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="welcome-text">DATA LENGKAP MAHASISWA</div>
+                <div class="header-right">
+                </div>
+            </header>
+
+            <div class="content-body">
+                
+                <div class="content-header">
+                    <h2>Daftar Mahasiswa Aktif</h2>
+                    <p>Total Mahasiswa: <span id="totalMhsCount">0</span></p>
+                </div>
+
+                <button id="addStudentBtn">
+                    Tambah Mahasiswa Baru
+                </button>
+
+                <div class="data-table-container">
+                    <table class="data-table" id="mahasiswaTable">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>NIM</th>
+                                <th>Nama Lengkap</th>
+                                <th>Program Studi</th>
+                                <th>Angkatan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mahasiswaBody">
+                            <tr><td colspan="6" style="text-align: center;">Memuat data mahasiswa...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'dataMahasiswa';
+
+        // Data dummy untuk inisialisasi LocalStorage
+        const initialStudents = [
+            { nim: '22012024', nama: 'Arda Baitunnisa Siregar', prodi: 'Teknik Informatika', angkatan: 2022 },
+            { nim: '22012023', nama: 'Ilhamsyah Nasution', prodi: 'Manajemen Informatika', angkatan: 2022 }
+        ];
+
+        // Memuat data dari LocalStorage atau data dummy jika LocalStorage kosong
+        function loadStudents() {
+            let data = localStorage.getItem(STORAGE_KEY);
+            if (!data) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(initialStudents));
+                data = JSON.stringify(initialStudents);
+            }
+            return JSON.parse(data);
+        }
+
+        // Menyimpan data ke LocalStorage
+        function saveStudents(students) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+        }
+
+        // Menampilkan data di tabel
+        function renderStudents() {
+            const students = loadStudents();
+            const body = document.getElementById('mahasiswaBody');
+            const totalCount = document.getElementById('totalMhsCount');
+            
+            body.innerHTML = '';
+            totalCount.textContent = students.length;
+
+            if (students.length === 0) {
+                body.innerHTML = '<tr><td colspan="6" style="text-align: center;">Tidak ada data mahasiswa yang tersedia.</td></tr>';
+                return;
+            }
+
+            students.forEach((mhs, index) => {
+                const row = body.insertRow();
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${mhs.nim}</td>
+                    <td>${mhs.nama}</td>
+                    <td>${mhs.prodi}</td>
+                    <td>${mhs.angkatan}</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editStudent('${mhs.nim}')">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteStudent('${mhs.nim}')">Hapus</button>
+                    </td>
+                `;
+            });
+        }
+        
+        // Fungsi Hapus Mahasiswa
+        function deleteStudent(nim) {
+            if (confirm(`Apakah Anda yakin ingin menghapus mahasiswa dengan NIM ${nim}?`)) {
+                let students = loadStudents();
+                // Filter data untuk menghapus mahasiswa berdasarkan NIM
+                students = students.filter(mhs => mhs.nim !== nim);
+                saveStudents(students);
+                renderStudents(); // Muat ulang tabel
+                alert(`Mahasiswa dengan NIM ${nim} berhasil dihapus.`);
+            }
+        }
+
+        // Fungsi Edit Mahasiswa (Simulasi dengan prompt)
+        function editStudent(nim) {
+            let students = loadStudents();
+            const studentIndex = students.findIndex(mhs => mhs.nim === nim);
+            const mhs = students[studentIndex];
+
+            if (mhs) {
+                const newNama = prompt(`Edit Nama (${mhs.nama}):`, mhs.nama);
+                const newProdi = prompt(`Edit Program Studi (${mhs.prodi}):`, mhs.prodi);
+                const newAngkatan = prompt(`Edit Angkatan (${mhs.angkatan}):`, mhs.angkatan);
+
+                if (newNama !== null && newProdi !== null && newAngkatan !== null) {
+                    students[studentIndex].nama = newNama.trim() || mhs.nama;
+                    students[studentIndex].prodi = newProdi.trim() || mhs.prodi;
+                    students[studentIndex].angkatan = parseInt(newAngkatan.trim()) || mhs.angkatan;
+                    
+                    saveStudents(students);
+                    renderStudents();
+                    alert(`Data mahasiswa NIM ${nim} berhasil diperbarui.`);
+                }
+            }
+        }
+        
+        // Fungsi Tambah Mahasiswa (Simulasi dengan prompt)
+        document.getElementById('addStudentBtn').addEventListener('click', () => {
+            const nim = prompt("Masukkan NIM Mahasiswa Baru:");
+            if (!nim) return;
+            
+            const nama = prompt("Masukkan Nama Lengkap:");
+            if (!nama) return;
+            
+            const prodi = prompt("Masukkan Program Studi:");
+            if (!prodi) return;
+
+            const angkatan = prompt("Masukkan Tahun Angkatan:");
+            if (!angkatan || isNaN(parseInt(angkatan))) return alert("Tahun angkatan tidak valid.");
+
+            let students = loadStudents();
+            // Cek duplikasi NIM
+            if (students.some(mhs => mhs.nim === nim)) {
+                return alert("NIM ini sudah terdaftar. Mohon gunakan NIM lain.");
+            }
+
+            const newMhs = { nim: nim.trim(), nama: nama.trim(), prodi: prodi.trim(), angkatan: parseInt(angkatan.trim()) };
+            students.push(newMhs);
+            saveStudents(students);
+            renderStudents();
+            alert(`Mahasiswa ${nama} berhasil ditambahkan!`);
+        });
+
+
+        // Panggil renderStudents saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', renderStudents);
+    </script>
+</body>
+</html>

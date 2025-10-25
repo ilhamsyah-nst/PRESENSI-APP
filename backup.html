@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Backup & Restore</title>
+    <link rel="stylesheet" href="style-dashboard.css">
+    <style>
+        /* Gaya Khusus untuk Kontainer Backup */
+        .backup-container {
+            max-width: 700px;
+            margin: 30px auto; 
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .backup-container h2 {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .status-box {
+            background-color: var(--light-bg);
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 25px;
+        }
+        
+        .status-box p {
+            margin-bottom: 10px;
+            font-size: 1em;
+            color: var(--text-dark);
+        }
+
+        .status-success {
+            font-weight: bold;
+            color: var(--success-color);
+        }
+        .status-danger {
+            font-weight: bold;
+            color: var(--danger-color);
+        }
+
+        .action-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        /* Menggunakan ulang gaya tombol dari dashboard.css */
+        .backup-btn-lg {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .restore-btn-lg {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            background-color: var(--warning-color);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .backup-btn-lg:hover {
+            background-color: #05a07c;
+            transform: translateY(-2px);
+        }
+        
+        .restore-btn-lg:hover {
+            background-color: #ffc333;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo Kampus" class="campus-logo">
+                <p>APLIKASI PRESENSI DISPORA LABUSEL</p>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="dashboard.html"><span class="icon">🏠</span> Dashboard</a></li>
+                    <li><a href="presensi.html"><span class="icon">🗓️</span> Presensi</a></li>
+                    <li><a href="data_mahasiswa.html"><span class="icon">👤</span> Data Mahasiswa</a></li>
+                    <li><a href="data_kampus.html"><span class="icon">🏢</span> Data Kampus</a></li>
+                    <li><a href="data_presensi.html"><span class="icon">📜</span> Data Presensi</a></li>
+                    <li><a href="rekap.html"><span class="icon">📊</span> Rekap</a></li>
+                    <li><a href="about_us.html"><span class="icon">ℹ️</span> About Us</a></li>
+                    <li class="active"><a href="backup.html"><span class="icon">⚙️</span> Backup/Restore</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="welcome-text">MANAJEMEN DATA</div>
+                </header>
+
+            <div class="content-body">
+                <div class="backup-container">
+                    <h2>Manajemen Pencadangan (Backup) & Pemulihan (Restore) Data</h2>
+
+                    <div class="status-box">
+                        <p>Status Database: <span class="status-success">Optimal</span></p>
+                        <p>Ukuran Database: 54.2 MB</p>
+                        <p>Pencadangan Terakhir: 23 Oktober 2025, 23:59 WIB</p>
+                        <p>Rekomendasi: Lakukan pencadangan (backup) setidaknya seminggu sekali.</p>
+                    </div>
+
+                    <div class="action-group">
+                        <button class="backup-btn-lg" onclick="alert('Proses backup data sedang dijalankan. Harap tunggu...')">
+                            💾 Backup Sekarang
+                        </button>
+                        
+                        <button class="restore-btn-lg" onclick="alert('PERINGATAN! Proses restore akan menggantikan data saat ini dengan data backup terakhir. Lanjutkan?')">
+                            🔄 Restore Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

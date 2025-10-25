@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Presensi</title>
+    <link rel="stylesheet" href="style-dashboard.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo Kampus" class="campus-logo">
+                <p>APLIKASI PRESENSI DISPORA LABUSEL</p>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li class="active"><a href="dashboard.html"><span class="icon">🏠</span> Dashboard</a></li>
+                    <li><a href="presensi.html"><span class="icon">🗓️</span> Presensi</a></li>
+                    <li><a href="data_mahasiswa.html"><span class="icon">👤</span> Data Mahasiswa</a></li>
+                    <li><a href="data_kampus.html"><span class="icon">🏢</span> Data Kampus</a></li>
+                    <li><a href="data_presensi.html"><span class="icon">📜</span> Data Presensi</a></li>
+                    <li><a href="rekap.html"><span class="icon">📊</span> Rekap</a></li>
+                    <li><a href="about_us.html"><span class="icon">ℹ️</span> About Us</a></li>
+                    <li><a href="backup.html"><span class="icon">⚙️</span> Backup/Restore</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="welcome-text">SELAMAT DATANG DI DASHBOARD PRESENSI</div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search" id="searchInput">
+                        <span class="search-icon" onclick="filterNews()">🔍</span>
+                    </div>
+                    <div class="date-time">Sabtu, 25 Juli 2025</div>
+                    <button class="logout-btn" onclick="location.href='index.html'">Logout</button>
+                </div>
+            </header>
+
+            <div class="content-body" style="background-image: url('placeholder-background.jpg');">
+                
+                <div class="stats-row">
+                    <div class="stat-card total-mahasiswa">
+                        <span class="icon">👤</span>
+                        <p class="number">2</p>
+                        <p class="label">Total Mahasiswa</p>
+                    </div>
+                    <div class="stat-card total-dosen">
+                        <span class="icon">👨‍🏫</span>
+                        <p class="number">5</p>
+                        <p class="label">Total Dosen</p>
+                    </div>
+                    <div class="stat-card tingkat-kehadiran">
+                        <span class="icon">✅</span>
+                        <p class="number">95%</p>
+                        <p class="label">Tingkat Kehadiran</p>
+                    </div>
+                    <div class="stat-card total-kampus">
+                        <span class="icon">🎓</span>
+                        <p class="number">1</p>
+                        <p class="label">Total Kampus</p>
+                    </div>
+                </div>
+
+                <div class="main-layout">
+                    <div class="main-left">
+                        
+                        <div class="quick-access">
+                            <h3>Akses Cepat</h3>
+                            <div class="access-icons">
+                                <a href="presensi.html" class="quick-link"><span class="icon">📝</span> Presensi Cepat</a>
+                                <a href="data_mahasiswa.html" class="quick-link"><span class="icon">👥</span> Lihat Mahasiswa</a>
+                                <a href="data_presensi.html" class="quick-link"><span class="icon">📂</span> Data Presensi</a>
+                                <a href="rekap.html" class="quick-link"><span class="icon">📈</span> Laporan Rekap</a>
+                                <a href="data_kampus.html" class="quick-link"><span class="icon">🏛️</span> Info Kampus</a>
+                                <a href="about_us.html" class="quick-link"><span class="icon">❓</span> Bantuan</a>
+                            </div>
+                        </div>
+
+                    <div class="important-alert">
+                    <h4>Peringatan Penting</h4>
+                    <p>Pastikan Anda selalu melakukan backup data secara rutin untuk menghindari kehilangan informasi penting. Data terakhir di-backup pada 23 Juli 2025, 23:59 WIB.</p>
+    
+                    <a href="backup.html"><button class="backup-btn">Backup Sekarang</button></a>
+                    <a href="backup.html"><button class="restore-btn">Restore Data</button></a>
+    
+                    </div>
+                    </div>
+
+                    <div class="main-right" id="newsContainer">
+                        <div class="video-container">
+                            <h4>Video Informasi dan Pengumuman</h4>
+                            
+                            <div class="main-video-player">
+                                <video width="100%" height="100%" controls>
+                                    <source src="cartoon.mp4" type="video/mp4">
+                                    Browser Anda tidak mendukung tag video HTML5.
+                                </video>
+                            </div>
+                            
+                            <div class="news-list-scroller">
+                                
+                                <div class="news-box green-box news-item">
+                                    <h4>Jadwal Presensi Dirilis</h4>
+                                    <p>Jadwal presensi semester ganjil 2024/2025 telah diterbitkan. Mohon cek halaman Data Presensi.</p>
+                                </div>
+
+                                <div class="news-box blue-box news-item">
+                                    <h4>Pembaruan Aplikasi</h4>
+                                    <p>Usai Penyidik Polda Metro, Ijazah SMA-S1 Jokowi Diteliti Labfor Wilson Novianti... <a href="#">selengkapnya</a></p>
+                                </div>
+
+                                <div class="news-box red-box news-item">
+                                    <h4>Maintenance Server Malam Ini</h4>
+                                    <p>Sistem akan tidak dapat diakses pada 25 Juli 2025, 00:00 - 02:00 WIB untuk pemeliharaan rutin.</p>
+                                </div>
+                                
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    filterNews();
+                }
+            });
+        });
+
+        function filterNews() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const newsItems = document.querySelectorAll('.news-list-scroller .news-item'); 
+
+            newsItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+
+                if (text.includes(filter) || filter === "") {
+                    item.style.display = 'block'; 
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

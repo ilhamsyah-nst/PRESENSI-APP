@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami</title>
+    <link rel="stylesheet" href="style-dashboard.css">
+    <style>
+        /* CSS Khusus untuk Konten About Us */
+        .content-header {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .about-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            line-height: 1.6;
+        }
+
+        .about-section h3 {
+            color: var(--primary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-weight: 600;
+        }
+        .about-section h3:first-of-type {
+            margin-top: 0;
+        }
+
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .team-member {
+            background-color: #f7f9fc;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            width: 180px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling baru untuk foto pengembang */
+        .team-member .campus-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            display: block;
+        }
+        
+        .member-info strong {
+            display: block;
+            font-size: 1.1em;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo Kampus" class="campus-logo">
+                <p>APLIKASI PRESENSI DISPORA LABUSEL</p>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="dashboard.html"><span class="icon">🏠</span> Dashboard</a></li>
+                    <li><a href="presensi.html"><span class="icon">🗓️</span> Presensi</a></li>
+                    <li><a href="data_mahasiswa.html"><span class="icon">👤</span> Data Mahasiswa</a></li>
+                    <li><a href="data_kampus.html"><span class="icon">🏢</span> Data Kampus</a></li>
+                    <li><a href="data_presensi.html"><span class="icon">📜</span> Data Presensi</a></li>
+                    <li><a href="rekap.html"><span class="icon">📊</span> Rekap</a></li>
+                    <li class="active"><a href="about_us.html"><span class="icon">ℹ️</span> About Us</a></li>
+                    <li><a href="backup.html"><span class="icon">⚙️</span> Backup/Restore</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="welcome-text">TENTANG APLIKASI DAN TIM PENGEMBANG</div>
+                <div class="header-right">
+                </div>
+            </header>
+
+            <div class="content-body">
+                
+                <div class="content-header">
+                    <h2>Mengenai Aplikasi Presensi Mahasiswa</h2>
+                    <p>Detail tentang latar belakang dan tujuan proyek ini.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>Tujuan Aplikasi</h3>
+                    <p>Aplikasi Presensi Mahasiswa ini dikembangkan sebagai solusi modern untuk mempermudah dan mempercepat proses pencatatan kehadiran di lingkungan akademik. Dengan fokus pada kemudahan penggunaan dan akurasi data, sistem ini bertujuan untuk mengurangi kesalahan manual dan memberikan rekapitulasi kehadiran yang cepat dan akurat bagi dosen, mahasiswa, dan administrator.</p>
+
+                    <h3>Fitur Utama</h3>
+                    <ul>
+                        <li>**Presensi Manual:** Pencatatan kehadiran (Hadir, Izin, Sakit, Cuti, Alpa) yang fleksibel.</li>
+                        <li>**Data Manajemen:** Pengelolaan data mahasiswa dan informasi institusi.</li>
+                        <li>**Rekapitulasi:** Laporan ringkasan kehadiran per individu dan total statistik.</li>
+                        <li>**Ekspor Data:** Kemampuan untuk mengekspor data presensi ke format CSV (Excel) untuk keperluan pelaporan.</li>
+                    </ul>
+
+                    <h3>Informasi Teknis Proyek</h3>
+                    <p>Proyek ini dibangun menggunakan teknologi *frontend* murni **HTML, CSS, dan JavaScript**. Data disimpan secara lokal di *browser* menggunakan **LocalStorage** sebagai simulasi sistem database, sehingga data tidak dapat diakses oleh pengguna lain atau dari perangkat yang berbeda.</p>
+                
+                    <h3>Pengembang</h3>
+                    <div class="team-container">
+                        <div class="team-member">
+                            <img src="ilham.png" alt="Logo Kampus" class="campus-logo">
+                            <div class="member-info">
+                                <strong>Ilhamsyah Nasution</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px;">Kontak Proyek</h3>
+                    <p>Jika Anda memiliki pertanyaan lebih lanjut atau ingin melaporkan *bug*, silakan hubungi tim IT Kami di **ilhamsyahnst1472@gmail.com** atau kunjungi kantor pusat kami di Gedung A.</p>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

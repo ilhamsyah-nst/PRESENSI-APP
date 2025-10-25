@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Presensi</title>
+    <link rel="stylesheet" href="style-dashboard.css">
+    <style>
+        /* CSS Khusus Form */
+        /* Menggunakan nilai CSS Variabel dari style-dashboard.css */
+        .container {
+            max-width: 600px;
+            margin: 20px auto; 
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+        
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        input[type="text"], input[type="date"], input[type="time"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dadce0;
+            border-radius: 8px; 
+            box-sizing: border-box;
+            background-color: var(--card-bg); 
+            color: var(--text-dark);
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--accent-color); 
+            color: var(--text-light);
+            border: none;
+            border-radius: var(--radius-sm); 
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        button[type="submit"]:hover {
+            background-color: #2e8b57;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        /* Gaya untuk input yang terisi otomatis (readonly) */
+        input[readonly]:not(#tanggal) { 
+            background-color: #f0f0f0 !important;
+            cursor: not-allowed;
+        }
+
+        .presensi-alert {
+            display: none;
+            padding: 15px;
+            background-color: #f0fff4;
+            color: #38761d;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo Kampus" class="campus-logo">
+                <p>APLIKASI PRESENSI DISPORA LABUSEL</p>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="dashboard.html"><span class="icon">🏠</span> Dashboard</a></li>
+                    <li class="active"><a href="presensi.html"><span class="icon">🗓️</span> Presensi</a></li>
+                    <li><a href="data_mahasiswa.html"><span class="icon">👤</span> Data Mahasiswa</a></li>
+                    <li><a href="data_kampus.html"><span class="icon">🏢</span> Data Kampus</a></li>
+                    <li><a href="data_presensi.html"><span class="icon">📜</span> Data Presensi</a></li>
+                    <li><a href="rekap.html"><span class="icon">📊</span> Rekap</a></li>
+                    <li><a href="about_us.html"><span class="icon">ℹ️</span> About Us</a></li>
+                    <li><a href="backup.html"><span class="icon">⚙️</span> Backup/Restore</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="welcome-text">FORMULIR PRESENSI KEHADIRAN</div>
+            <div class="header-right">
+                <button class="logout-btn">Keluar</button>
+            </div>
+        </header>
+
+        <div class="content-body">
+            <div class="container">
+                <h2>Daftar Presensi Kehadiran</h2>
+                <p>Silakan isi data diri dan status kehadiran Anda.</p>
+                
+                <form action="#" method="post" id="formPresensi">
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap:</label>
+                        <input type="text" id="nama" name="nama" placeholder="Masukkan Nama Lengkap" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nim_id">NIM / NIP:</label>
+                        <input type="text" id="nim_id" name="nim_id" placeholder="Masukkan NIM atau NIP" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="matkul">Mata Kuliah:</label>
+                        <select id="matkul" name="matkul" required>
+                            <option value="" disabled selected>Pilih Mata Kuliah</option>
+                            <option value="Web Lanjut">Pemrograman Web Lanjut</option>
+                            <option value="AI Dasar">Kecerdasan Buatan Dasar</option>
+                            <option value="Jaringan">Jaringan Komputer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal">Tanggal Hari Ini:</label>
+                        <input type="date" id="tanggal" name="tanggal" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="waktu">Waktu Masuk:</label>
+                        <input type="time" id="waktu" name="waktu" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Pilih Status Kehadiran:</label>
+                        <select id="status" name="status" required>
+                            <option value="Hadir">Hadir</option>
+                            <option value="Izin">Izin (Wajib Lampirkan Surat)</option>
+                            <option value="Sakit">Sakit (Wajib Lampirkan Surat Dokter)</option>
+                            <option value="Alpa">Alpa / Tidak Hadir</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-button">Simpan Presensi</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+    <script>
+    // FUNGSI UTAMA: MENDAPATKAN SEMUA DATA PRESENSI DARI LOCAL STORAGE
+    function getPresensiData() {
+        const data = localStorage.getItem('presensiData');
+        return data ? JSON.parse(data) : []; // Mengembalikan array kosong jika tidak ada data
+    }
+    
+    // FUNGSI UTAMA: MENYIMPAN DATA PRESENSI KE LOCAL STORAGE
+    function savePresensiData(data) {
+        localStorage.setItem('presensiData', JSON.stringify(data));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('formPresensi');
+        const tanggalInput = document.getElementById('tanggal');
+        const waktuInput = document.getElementById('waktu');
+        const statusSelect = document.getElementById('status');
+        const namaInput = document.getElementById('nama');
+        const nimInput = document.getElementById('nim_id');
+        const instructionP = document.querySelector('.container p');
+        
+        // --- 1. ISI OTOMATIS DARI LOCAL STORAGE (Login) ---
+        const userDataString = localStorage.getItem('loggedInUser');
+        const userData = userDataString ? JSON.parse(userDataString) : null;
+
+        if (userData) {
+            namaInput.value = userData.nama;
+            nimInput.value = userData.nim;
+            instructionP.textContent = `Selamat datang, ${userData.nama}. Data Anda telah terisi otomatis dari login.`;
+        } else {
+            alert('Sesi login tidak ditemukan, harap login kembali.');
+            window.location.href = 'index.html'; 
+            return;
+        }
+
+        // --- 2. TANGGAL OTOMATIS ---
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        tanggalInput.value = `${year}-${month}-${day}`;
+        
+        // --- 3. HANDLE SUBMIT FORM (MENYIMPAN DATA BARU) ---
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Kumpulkan data presensi yang baru
+            const presensiBaru = {
+                nim: nimInput.value,
+                nama: namaInput.value,
+                matkul: document.getElementById('matkul').value,
+                tgl: tanggalInput.value,
+                waktu: waktuInput.value,
+                status: statusSelect.value
+            };
+            
+            // Ambil data yang sudah ada, tambahkan yang baru, lalu simpan
+            const existingData = getPresensiData();
+            existingData.push(presensiBaru);
+            savePresensiData(existingData); // Simpan kembali ke Local Storage
+
+            alert(`Presensi untuk ${presensiBaru.nama} (${presensiBaru.matkul}) berhasil dicatat dengan status ${presensiBaru.status}!`);
+
+            // Alihkan ke halaman data presensi
+            window.location.href = 'data_presensi.html'; 
+        });
+
+
+        // --- 4. LOGIKA WAKTU MASUK BERDASARKAN STATUS ---
+        
+        const updateWaktu = () => {
+            const now = new Date();
+            const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            waktuInput.value = currentTime;
+        };
+
+        const setInitialWaktuState = () => {
+            if(statusSelect.value === 'Hadir') {
+                waktuInput.style.backgroundColor = 'white';
+                waktuInput.removeAttribute('readonly');
+                updateWaktu(); 
+            } else {
+                waktuInput.style.backgroundColor = '#f0f0f0'; 
+                waktuInput.setAttribute('readonly', 'readonly');
+                waktuInput.value = '';
+            }
+        };
+
+        setInitialWaktuState();
+        statusSelect.addEventListener('change', setInitialWaktuState);
+    });
+</script>
+</body>
+</html>

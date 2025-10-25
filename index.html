@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Aplikasi Presensi | Sport Theme</title>
+    
+    <style>
+        /* Variabel Warna */
+        :root {
+            --primary-color: #007bff; /* Biru (Warna dasar kampus) */
+            --sport-color: #28a745; /* Hijau Terang (Warna lapangan/olahraga) */
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        /* --- STYLING BODY (LATAR BELAKANG OLAHRAGA) --- */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            
+            /* Ganti 'sport-bg.jpg' dengan nama file gambar olahraga Anda */
+            background-image: url('sport.png'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            
+            /* Efek overlay agar teks mudah dibaca */
+            position: relative;
+        }
+        
+        /* Tambahkan overlay gelap */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Overlay hitam transparan */
+            z-index: 0;
+        }
+
+        /* --- LOGIN CONTAINER --- */
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.95); /* Sedikit transparan */
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* --- LOGO & JUDUL --- */
+        .login-logo {
+            width: 80px; 
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .login-container h2 {
+            margin-top: 0;
+            color: var(--sport-color); /* Judul menggunakan warna olahraga */
+            font-size: 1.8em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--sport-color);
+            margin-bottom: 25px;
+        }
+
+        /* --- FORMULIR --- */
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-dark);
+            font-size: 0.9em;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+        
+        /* --- TOMBOL LOGIN --- */
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--sport-color); 
+            color: var(--text-light);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        
+        .login-button:hover {
+            background-color: #1e7e34; /* Sedikit lebih gelap saat hover */
+            transform: scale(1.01);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        
+        <img src="logo.png" alt="Logo Kampus" class="login-logo">
+        
+        <h2>ABSENSI DISPORA LABUHANBATU SELATAN</h2>
+        
+        <form action="#" method="POST" id="loginForm"> 
+            
+            <div class="input-group">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" name="nama" placeholder="Masukkan Nama Lengkap" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="nim">NIM / NIP</label>
+                <input type="text" id="nim" name="nim" placeholder="Masukkan ID atau NIM" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Kata Sandi</label>
+                <input type="password" id="password" name="password" placeholder="Masukkan Kata Sandi" required>
+            </div>
+            <button type="submit" class="login-button">Masuk & Presensi</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nama = document.getElementById('nama').value;
+            const nim = document.getElementById('nim').value;
+
+            // 1. Simpan data pengguna yang berhasil login ke Local Storage
+            localStorage.setItem('loggedInUser', JSON.stringify({
+                nama: nama,
+                nim: nim
+            }));
+            
+            // 2. Lanjutkan ke dashboard
+            window.location.href = 'dashboard.html'; 
+        });
+    </script>
+</body>
+</html>
